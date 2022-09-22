@@ -53,7 +53,7 @@ static void Save() {
         throw response.Exception;
 }
 
-await NgrokHelper.Run();
+Task ngrok = NgrokHelper.Run();
 DriveHelper.DownloadLatestPackage(ZipFileName);
 
 if (Directory.Exists(DirectoryName))
@@ -91,6 +91,8 @@ do {
     } catch {
     }
 } while (rcon is null);
+
+ngrok.Wait();
 
 for (int i = 0; i < MaxWorkTime / SaveFrequency; i++) {
     if (i != 0) {

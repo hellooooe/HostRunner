@@ -12,12 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      name: Run ngrok
-      uses: apogiatzis/ngrok-tunneling-action@latest
-      with:
-        timeout: 6h
-        port: 25565
-        ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
+      - name: Run ngrok
+        uses: apogiatzis/ngrok-tunneling-action@latest
+        with:
+          timeout: 6h
+          port: 25565
+          ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
 
       - name: Restore dependencies
         run: dotnet restore

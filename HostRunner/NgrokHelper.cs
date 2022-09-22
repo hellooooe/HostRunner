@@ -7,12 +7,12 @@ namespace HostRunner;
 internal static class NgrokHelper {
 
     public static async Task Run() {
-        using INgrokManager ngrokManager = new NgrokManager();
+        using NgrokManager ngrokManager = new NgrokManager();
 
         await ngrokManager.DownloadAndUnzipNgrokAsync();
         await ngrokManager.RegisterAuthTokenAsync(Environment.GetCommandLineArgs()[6]);
 
-        ngrokManager.StartNgrok(NgrokManager.Region.Europe);
+        ngrokManager.StartNgrokWithLogging(NgrokManager.Region.Europe);
 
         StartTunnelDTO tunnel = new StartTunnelDTO {
             name = typeof(NgrokHelper).Assembly.GetName().Name,

@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run ngrok
-        uses: apogiatzis/ngrok-tunneling-action@latest
+        uses: apogiatzis/ngrok-tunneling-action@v0.1.4
         with:
           timeout: 6h
           port: 25565

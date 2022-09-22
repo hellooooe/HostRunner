@@ -21,8 +21,7 @@ internal static class NgrokHelper {
         };
 
         using HttpResponseMessage response = await ngrokManager.StartTunnelAsync(tunnel);
-        if (!response.IsSuccessStatusCode)
-            throw new InvalidOperationException();
+        response.EnsureSuccessStatusCode();
 
         TunnelDetailDTO tunnelDetail =
             JsonSerializer.Deserialize<TunnelDetailDTO>(await response.Content.ReadAsStringAsync())!;

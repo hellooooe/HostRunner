@@ -12,12 +12,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Run ngrok
-        uses: apogiatzis/ngrok-tunneling-action@v0.1.4
-        with:
-          timeout: 6h
-          port: 25565
-          ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
+      - name: Install localtunnel
+        run: npm install -g localtunnel
+      - name: Run localtunnel
+        run: lt --port 25565 --subdomain kumpleterq
 
       - name: Restore dependencies
         run: dotnet restore

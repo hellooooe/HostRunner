@@ -1,0 +1,29 @@
+name: Host
+
+on:
+  release:
+    types: [published, edited]
+
+jobs:
+  host:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download ngrok
+        run: brew install ngrok/ngrok/ngrok
+      - name: Setup ngrok
+        run: |
+          ngrok config add-authtoken ${{ secrets.NGROK_TOKEN }}
+          ngrok config region eu
+      - name: Run ngrok
+        run: ngrok tcp 25565
+
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+      - name: Run
+        run: dotnet run --project HostRunner/HostRunner.csproj --no-build --verbosity normal --configuration Release ${{ secrets.ACCESS_TOKEN }} ${{ secrets.REFRESH_TOKEN }} ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.FOLDER_ID }}

@@ -54,7 +54,11 @@ static void Save() {
 }
 
 DriveHelper.DownloadLatestPackage(ZipFileName);
-Directory.Delete(DirectoryName, true);
+
+if (Directory.Exists(DirectoryName))
+    Directory.Delete(DirectoryName, true);
+Directory.CreateDirectory(DirectoryName);
+
 ZipFile.ExtractToDirectory(ZipFileName, DirectoryName);
 
 

@@ -15,6 +15,7 @@ internal static class NgrokHelper {
         ngrokManager.StartNgrok(NgrokManager.Region.Europe);
 
         StartTunnelDTO tunnel = new StartTunnelDTO {
+            name = typeof(NgrokHelper).Assembly.GetName().Name,
             proto = "tcp",
             addr = "25565"
         };

@@ -12,14 +12,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Download ngrok
-        run: brew install ngrok/ngrok/ngrok
-      - name: Setup ngrok
-        run: |
-          ngrok config add-authtoken ${{ secrets.NGROK_TOKEN }}
-          ngrok config region eu
-      - name: Run ngrok
-        run: ngrok tcp 25565
+      name: Run ngrok
+      uses: apogiatzis/ngrok-tunneling-action@latest
+      with:
+        timeout: 6h
+        port: 25565
+        ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
 
       - name: Restore dependencies
         run: dotnet restore

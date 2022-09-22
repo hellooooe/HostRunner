@@ -53,6 +53,7 @@ static void Save() {
         throw response.Exception;
 }
 
+await NgrokHelper.Run();
 DriveHelper.DownloadLatestPackage(ZipFileName);
 
 if (Directory.Exists(DirectoryName))
@@ -60,7 +61,6 @@ if (Directory.Exists(DirectoryName))
 Directory.CreateDirectory(DirectoryName);
 
 ZipFile.ExtractToDirectory(ZipFileName, DirectoryName);
-
 
 bool isWorking = true;
 Task task = Task.Run(() => {

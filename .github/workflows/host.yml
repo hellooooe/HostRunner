@@ -6,20 +6,16 @@ on:
 
 jobs:
   host:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
+    env:
+      NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Install localtunnel
-        run: npm install -g localtunnel
-      - name: Run localtunnel
-        run: lt --port 25565 --subdomain kumpleterq
-
       - name: Restore dependencies
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore --configuration Release
       - name: Run
-        run: dotnet run --project HostRunner/HostRunner.csproj --no-build --verbosity normal --configuration Release ${{ secrets.ACCESS_TOKEN }} ${{ secrets.REFRESH_TOKEN }} ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.FOLDER_ID }}
+        run: dotnet run --project HostRunner/HostRunner.csproj --no-build --verbosity normal --configuration Release ${{ secrets.ACCESS_TOKEN }} ${{ secrets.REFRESH_TOKEN }} ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.FOLDER_ID }} ${{ secrets.NGROK_TOKEN }}

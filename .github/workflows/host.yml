@@ -6,18 +6,18 @@ on:
 
 jobs:
   host:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Download ngrok
-        run: brew install ngrok/ngrok/ngrok
-      - name: Setup ngrok
-        run: ngrok config add-authtoken ${{ secrets.NGROK_TOKEN }}
       - name: Run ngrok
-        run: ngrok tcp 25565
+        uses: apogiatzis/ngrok-tunneling-action@v0.1.4
+        with:
+          timeout: 6h
+          port: 25565
+          ngrok_authtoken: ${{ secrets.NGROK_TOKEN }}
 
       - name: Restore dependencies
         run: dotnet restore

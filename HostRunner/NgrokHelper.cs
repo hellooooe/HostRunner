@@ -12,7 +12,7 @@ internal static class NgrokHelper {
         await ngrokManager.DownloadAndUnzipNgrokAsync();
         await ngrokManager.RegisterAuthTokenAsync(Environment.GetCommandLineArgs()[6]);
 
-        ngrokManager.StartNgrok();
+        ngrokManager.StartNgrok(NgrokManager.Region.Europe);
 
         StartTunnelDTO tunnel = new StartTunnelDTO {
             proto = "tcp",

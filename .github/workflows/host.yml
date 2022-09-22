@@ -6,7 +6,7 @@ on:
 
 jobs:
   host:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     env:
       NGROK_TOKEN: ${{ secrets.NGROK_TOKEN }}
 

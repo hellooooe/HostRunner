@@ -82,18 +82,25 @@ Task task = Task.Run(() => {
     Save();
 });
 
-Process? tunnelProcess = null;
+Process? tunnelProcess = Process.Start(new ProcessStartInfo {
+    FileName = "ngrok",
+    Arguments = "tcp 25565 --region eu"
+}) ?? throw new NullReferenceException();
+
 Task tunnel = Task.Run(() => {
     AppDomain.CurrentDomain.UnhandledException += (_, _) => tunnelProcess?.Kill();
     AppDomain.CurrentDomain.ProcessExit += (_, _) => tunnelProcess?.Kill();
 
     while (isWorking) {
-        tunnelProcess = Process.Start(new ProcessStartInfo {
-            FileName = "ngrok",
-            Arguments = "tcp 25565 --region eu"
-        }) ?? throw new NullReferenceException();
+        if (tunnelProcess is null) {
+            tunnelProcess = Process.Start(new ProcessStartInfo {
+                FileName = "ngrok",
+                Arguments = "tcp 25565 --region eu"
+            }) ?? throw new NullReferenceException();
+        }
 
         tunnelProcess.WaitForExit();
+        tunnelProcess = null;
     }
 });
 

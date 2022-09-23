@@ -6,7 +6,7 @@ on:
 
 jobs:
   host:
-    runs-on: buildjet-4vcpu-ubuntu-2204
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
@@ -14,10 +14,16 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
+          distribution: 'adopt'
           java-version: '17'
       - name: Intall openvpn
-        run: sudo apt install openvpn easy-rsa
+        run: |
+          if [ "$RUNNER_OS" == "Linux" ]; then
+            sudo apt install openvpn easy-rsa
+          elif [ "$RUNNER_OS" == "macOS" ]; then
+            brew install openvpn
+          fi
+        shell: bash
       - name: Download openvpn configuration file
         run: curl ${{ secrets.OPENVPN_CONFIGURATION }} -o config.ovpn
       - name: Restore dependencies

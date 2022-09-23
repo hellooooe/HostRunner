@@ -110,6 +110,7 @@ for (int i = 0; i < MaxWorkTime / SaveFrequency; i++) {
     if (i != 0) {
         rcon.SendCommand("save-all");
         Thread.Sleep(30000);
+        rcon.SendCommand("msg @a Saving...");
         Save();
     }
 
@@ -119,7 +120,7 @@ for (int i = 0; i < MaxWorkTime / SaveFrequency; i++) {
 isWorking = false;
 
 for (int i = 0; i < 3; i++)
-    rcon.SendCommand("msg @a The server will restart in 30 seconds... The IP address will change!");
+    rcon.SendCommand("msg @a The server will restart in 30 seconds...");
 
 Thread.Sleep(30000);
 rcon.SendCommand("stop");

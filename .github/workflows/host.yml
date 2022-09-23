@@ -7,7 +7,7 @@ on:
 jobs:
   host:
     runs-on: macos-latest
-    
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -16,8 +16,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Setup localtunnel
-        run: npm install -g localtunnel
+      - name: Intall ngrok
+        run: brew install ngrok/ngrok/ngrok
+      - name: Setup ngrok
+        run: ngrok config add-authtoken ${{ secrets.NGROK_TOKEN }}
       - name: Restore dependencies
         run: dotnet restore
       - name: Build

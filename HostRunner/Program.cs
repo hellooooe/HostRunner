@@ -89,8 +89,8 @@ Task tunnel = Task.Run(() => {
 
     while (isWorking) {
         tunnelProcess = Process.Start(new ProcessStartInfo {
-            FileName = "lt",
-            Arguments = "--port 25565 --subdomain kumpleterq"
+            FileName = "ngrok",
+            Arguments = "tcp 25565 --region eu"
         }) ?? throw new NullReferenceException();
 
         tunnelProcess.WaitForExit();

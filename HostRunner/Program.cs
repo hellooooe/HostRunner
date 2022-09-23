@@ -71,7 +71,7 @@ Task task = Task.Run(() => {
     while (isWorking) {
         process = Process.Start(new ProcessStartInfo {
             WorkingDirectory = DirectoryName,
-            FileName = "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.4-1/x64",
+            FileName = "java",
             Arguments = "-Xmx14G -jar mc.jar nogui"
         }) ?? throw new NullReferenceException();
 

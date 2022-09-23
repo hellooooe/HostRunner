@@ -53,7 +53,6 @@ static void Save() {
         throw response.Exception;
 }
 
-Task ngrok = NgrokHelper.Run();
 DriveHelper.DownloadLatestPackage(ZipFileName);
 
 if (Directory.Exists(DirectoryName))
@@ -83,6 +82,21 @@ Task task = Task.Run(() => {
     Save();
 });
 
+Process? tunnelProcess = null;
+Task tunnel = Task.Run(() => {
+    AppDomain.CurrentDomain.UnhandledException += (_, _) => tunnelProcess?.Kill();
+    AppDomain.CurrentDomain.ProcessExit += (_, _) => tunnelProcess?.Kill();
+
+    while (isWorking) {
+        tunnelProcess = Process.Start(new ProcessStartInfo {
+            FileName = "lt",
+            Arguments = "--port 25565 --subdomain kumpleterq"
+        }) ?? throw new NullReferenceException();
+
+        tunnelProcess.WaitForExit();
+    }
+});
+
 MinecraftRCON? rcon = null;
 do {
     try {
@@ -91,8 +105,6 @@ do {
     } catch {
     }
 } while (rcon is null);
-
-ngrok.Wait();
 
 for (int i = 0; i < MaxWorkTime / SaveFrequency; i++) {
     if (i != 0) {
@@ -111,5 +123,8 @@ for (int i = 0; i < 3; i++)
 
 Thread.Sleep(30000);
 rcon.SendCommand("stop");
+
+tunnelProcess?.Kill();
+tunnel.Wait();
 
 task.Wait();

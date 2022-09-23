@@ -83,8 +83,8 @@ Task task = Task.Run(() => {
 });
 
 Process? tunnelProcess = Process.Start(new ProcessStartInfo {
-    FileName = "ngrok",
-    Arguments = "tcp 25565 --region eu"
+    FileName = "openvpn",
+    Arguments = "--config config.ovpn"
 }) ?? throw new NullReferenceException();
 
 Task tunnel = Task.Run(() => {
@@ -94,8 +94,8 @@ Task tunnel = Task.Run(() => {
     while (isWorking) {
         if (tunnelProcess is null) {
             tunnelProcess = Process.Start(new ProcessStartInfo {
-                FileName = "ngrok",
-                Arguments = "tcp 25565 --region eu"
+                FileName = "openvpn",
+                Arguments = "--config config.ovpn"
             }) ?? throw new NullReferenceException();
         }
 

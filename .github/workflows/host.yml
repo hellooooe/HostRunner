@@ -16,10 +16,10 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-      - name: Intall ngrok
-        run: brew install ngrok/ngrok/ngrok
-      - name: Setup ngrok
-        run: ngrok config add-authtoken ${{ secrets.NGROK_TOKEN }}
+      - name: Intall openvpn
+        run: brew install openvpn
+      - name: Download openvpn configuration file
+        run: curl ${{ secrets.OPENVPN_CONFIGURATION }} -o config.ovpn
       - name: Restore dependencies
         run: dotnet restore
       - name: Build

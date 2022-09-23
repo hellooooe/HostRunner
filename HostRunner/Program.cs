@@ -71,7 +71,7 @@ Task task = Task.Run(() => {
     while (isWorking) {
         process = Process.Start(new ProcessStartInfo {
             WorkingDirectory = DirectoryName,
-            FileName = "java",
+            FileName = "/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.4-1/x64",
             Arguments = "-Xmx14G -jar mc.jar nogui"
         }) ?? throw new NullReferenceException();
 
@@ -82,25 +82,18 @@ Task task = Task.Run(() => {
     Save();
 });
 
-Process? tunnelProcess = Process.Start(new ProcessStartInfo {
-    FileName = "sudo",
-    Arguments = "openvpn --config config.ovpn"
-}) ?? throw new NullReferenceException();
-
+Process? tunnelProcess = null;
 Task tunnel = Task.Run(() => {
     AppDomain.CurrentDomain.UnhandledException += (_, _) => tunnelProcess?.Kill();
     AppDomain.CurrentDomain.ProcessExit += (_, _) => tunnelProcess?.Kill();
 
     while (isWorking) {
-        if (tunnelProcess is null) {
-            tunnelProcess = Process.Start(new ProcessStartInfo {
-                FileName = "sudo",
-                Arguments = "openvpn --config config.ovpn"
-            }) ?? throw new NullReferenceException();
-        }
+        tunnelProcess = Process.Start(new ProcessStartInfo {
+            FileName = "sudo",
+            Arguments = "openvpn --config config.ovpn"
+        }) ?? throw new NullReferenceException();
 
         tunnelProcess.WaitForExit();
-        tunnelProcess = null;
     }
 });
 

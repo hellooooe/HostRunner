@@ -6,7 +6,7 @@ on:
 
 jobs:
   host:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -17,7 +17,7 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
       - name: Intall openvpn
-        run: brew install openvpn
+        run: sudo apt install openvpn easy-rsa
       - name: Download openvpn configuration file
         run: curl ${{ secrets.OPENVPN_CONFIGURATION }} -o config.ovpn
       - name: Restore dependencies

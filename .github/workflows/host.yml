@@ -25,4 +25,4 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --configuration Release
       - name: Run
-        run: dotnet run --project HostRunner/HostRunner.csproj --no-build --verbosity normal --configuration Release ${{ secrets.ACCESS_TOKEN }} ${{ secrets.REFRESH_TOKEN }} ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.FOLDER_ID }} ${{ secrets.NGROK_TOKEN }}
+        run: sudo dotnet run --project HostRunner/HostRunner.csproj --no-build --verbosity normal --configuration Release ${{ secrets.ACCESS_TOKEN }} ${{ secrets.REFRESH_TOKEN }} ${{ secrets.CLIENT_ID }} ${{ secrets.CLIENT_SECRET }} ${{ secrets.FOLDER_ID }} ${{ secrets.NGROK_TOKEN }}
